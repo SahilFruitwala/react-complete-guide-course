@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./ExpenseForm.css";
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
   const [expenseData, setExpenseData] = useState({
     title: "",
     amount: "0.01",
@@ -22,13 +22,13 @@ const ExpenseForm = () => {
   const dateChanegHandler = (event) => {
     setExpenseData({
       ...expenseData,
-      date: new Date(event.target.value).toISOString().split("T")[0],
+      date: new Date(event.target.value),
     });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(expenseData);
+    props.onSaveExpenseData({...expenseData, id: Math.random().toString()});
     setExpenseData({
       title: "",
       amount: "0.01",
@@ -70,7 +70,11 @@ const ExpenseForm = () => {
             id="date"
             min="2019-01-01"
             max="2022-12-31"
-            value={expenseData.date}
+            value={
+              expenseData.date === ""
+                ? ""
+                : expenseData.date.toISOString().split("T")[0]
+            }
             onChange={dateChanegHandler}
           />
         </div>
