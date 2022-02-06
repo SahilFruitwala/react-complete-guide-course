@@ -5,7 +5,7 @@ import "./ExpenseForm.css";
 const ExpenseForm = (props) => {
   const [expenseData, setExpenseData] = useState({
     title: "",
-    amount: "0.01",
+    amount: 0.01,
     date: "",
   });
 
@@ -17,23 +17,31 @@ const ExpenseForm = (props) => {
   };
   const amountChanegHandler = (event) => {
     // above is same as this but sometime due to timer react use to update changes may affect this method. SO, use above one.It will take lates snapshot of data keeping scedule state update in mind.
-    setExpenseData({ ...expenseData, amount: event.target.value });
+    setExpenseData((prevState) => ({
+      ...prevState,
+      amount: +event.target.value,
+    }));
   };
   const dateChanegHandler = (event) => {
-    setExpenseData({
-      ...expenseData,
+    setExpenseData((prevState) => ({
+      ...prevState,
       date: new Date(event.target.value),
-    });
+    }));
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onSaveExpenseData({...expenseData, id: Math.random().toString()});
+    props.onSaveExpenseData({ ...expenseData, id: Math.random().toString() });
     setExpenseData({
       title: "",
-      amount: "0.01",
+      amount: 0.01,
       date: "",
     });
+    props.onFormToggle();
+  };
+
+  const cancelHandler = () => {
+    props.onFormToggle();
   };
 
   return (
@@ -81,6 +89,7 @@ const ExpenseForm = (props) => {
       </div>
       <div className="new-expense__actions">
         <button type="submit">Add Expense</button>
+        <button onClick={cancelHandler}>Cancel</button>
       </div>
     </form>
   );
