@@ -1,7 +1,3 @@
-.todo-complete {
-    text-decoration:line-through;
-}
-
 .todo-item {
   display: flex;
   justify-content: space-between;
@@ -22,17 +18,21 @@
   flex: 1;
 }
 
-.todo-item h1 {
-  color: #3a3a3a;
-  font-size: 1rem;
+.todo-item button {
+  color: #fff;
+  background-color: transparent;
+  border: 0px;
+  font-size: 1.5rem;
   flex: 1;
+  cursor: pointer;
   margin: 0 1rem;
-  color: white;
+  text-align: start;
 }
 
-
-
-
+.todo-item__description .todo-complete {
+    text-decoration:line-through;
+    color: #c1c1c1;
+}
 
 @media (min-width: 580px) {
   .todo-item__description {
