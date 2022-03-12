@@ -1,11 +1,15 @@
 import { nanoid } from "nanoid";
 import { useEffect, useRef, useState } from "react";
+import ErrorModal from "../UI/ErrorModal";
 
 import "./AddTodo.css";
+
+const INITIAL_ERROR = { title: "", message: "" };
 
 const AddTodo = (props) => {
   const titleInput = useRef(null);
   const [title, setTitle] = useState("");
+  const [error, setError] = useState(INITIAL_ERROR);
 
   useEffect(() => {
     // current property is refered to input element
@@ -23,30 +27,49 @@ const AddTodo = (props) => {
   };
 
   const todoHandler = () => {
-    if (title.trim().length > 2) {
-      setTitle("");
-
-      props.addTodoHandler({
-        id: nanoid(),
-        title: title,
-        complete: false,
+    if (title.trim().length < 3) {
+      setError({
+        title: "Enter Valid Data!",
+        message: "Todo data should be at least 3 characters long!",
       });
+      return;
     }
+    setTitle("");
+
+    props.addTodoHandler({
+      id: nanoid(),
+      title: title,
+      complete: false,
+    });
+  };
+
+  const onClose = () => {
+    setError(INITIAL_ERROR);
+    titleInput.current.focus();
   };
 
   return (
-    <div className="center add-todo">
-      <input
-        ref={titleInput}
-        type="text"
-        name="title"
-        id="title"
-        onKeyPress={handleKeyPress}
-        onChange={onChangeHandle}
-        placeholder="Enter task..."
-        value={title}
-      />
-      <button onClick={todoHandler}>Add</button>
+    <div>
+      {error.title.trim().length > 0 && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onClick={onClose}
+        />
+      )}
+      <div className="center add-todo">
+        <input
+          ref={titleInput}
+          type="text"
+          name="title"
+          id="title"
+          onKeyPress={handleKeyPress}
+          onChange={onChangeHandle}
+          placeholder="Enter task..."
+          value={title}
+        />
+        <button onClick={todoHandler}>Add</button>
+      </div>
     </div>
   );
 };
