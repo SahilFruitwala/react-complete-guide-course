@@ -1,40 +1,19 @@
 import React, { useState } from "react";
 
 import Button from "../../UI/Button/Button";
+import Card from "../../UI/Card/Card";
+import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 import styles from "./CourseInput.module.css";
 
-// import styled from "styled-components";
-
-// const FormControl = styled.div`
-//   margin: 0.5rem 0;
-
-//   & label {
-//     font-weight: bold;
-//     display: block;
-//     margin-bottom: 0.5rem;
-//     color: ${(props) => (props.invalid ? "red" : "inherit")};
-//   }
-
-//   & input {
-//     display: block;
-//     width: 100%;
-//     font: inherit;
-//     line-height: 1.5rem;
-//     padding: 0 0.25rem;
-//     border: 1px solid ${(props) => (props.invalid ? "red" : "#ccc")};
-//     background: ${(props) => (props.invalid ? "salmon" : "transparent")};
-//   }
-
-//   & input:focus {
-//     outline: none;
-//     background: #fad0ec;
-//     border-color: #8b005d;
-//   }
-// `;
+const INITIAL_ERROR = {
+  title: "",
+  message: "",
+};
 
 const CourseInput = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [error, setError] = useState(INITIAL_ERROR);
 
   const goalInputChangeHandler = (event) => {
     if (event.target.value.trim().length > 0 && !isValid) {
@@ -45,7 +24,11 @@ const CourseInput = (props) => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    if (enteredValue.trim().length === 0) {
+    if (enteredValue.trim().length < 3) {
+      setError({
+        title: "Data is too short!",
+        message: "Enter minimum 3 characters!",
+      });
       setIsValid(false);
       return;
     }
@@ -53,22 +36,33 @@ const CourseInput = (props) => {
     props.onAddGoal(enteredValue);
   };
 
+  const handleModalClose = () => {
+    setIsValid(true);
+    setError(INITIAL_ERROR);
+  };
+
   return (
-    <form onSubmit={formSubmitHandler}>
-      {/* <FormControl className={!isValid && "invalid"}> */}
-      {/* <FormControl invalid={!isValid}> */}
-      <div
-        className={`${styles["form-control"]} ${!isValid && styles.invalid}`}
-      >
-        <label>Course Goal</label>
-        <input
-          type="text"
-          value={enteredValue}
-          onChange={goalInputChangeHandler}
+    <div>
+      {!isValid && (
+        <ErrorModal
+          errorTitle={error.title}
+          errorMessage={error.message}
+          onCloseModal={handleModalClose}
         />
-      </div>
-      <Button type="submit">Add Goal</Button>
-    </form>
+      )}
+      <Card className={styles.input}>
+        <form onSubmit={formSubmitHandler}>
+          <label htmlFor="goal">Goal</label>
+          <input
+            id="goal"
+            type="text"
+            value={enteredValue}
+            onChange={goalInputChangeHandler}
+          />
+          <Button type="submit">Add Goal</Button>
+        </form>
+      </Card>
+    </div>
   );
 };
 

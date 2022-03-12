@@ -1,32 +1,26 @@
-.form-control {
-  margin: 0.5rem 0;
+.input {
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
 }
 
-.form-control label {
-  font-weight: bold;
+.input label {
   display: block;
+  font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
-.form-control input {
+.input input {
+  font: inherit;
   display: block;
   width: 100%;
   border: 1px solid #ccc;
-  font: inherit;
-  line-height: 1.5rem;
-  padding: 0 0.25rem;
+  padding: 0.15rem;
+  margin-bottom: 0.5rem;
 }
 
-.form-control input:focus {
+.input input:focus {
   outline: none;
-  background: #fad0ec;
-  border-color: #8b005d;
-}
-
-.form-control.invalid input {
-  border-color: #ff0000;
-  background-color: #fa8072;
-}
-.form-control.invalid label {
-  color: #ff0000;
+  border-color: #4f005f;
 }
