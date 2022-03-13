@@ -6,6 +6,7 @@
   height: 100vh;
   z-index: 10;
   background: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
 }
 .modal {
   position: fixed;
@@ -44,6 +45,7 @@
   outline: none;
   border-radius: 5px;
   border: none;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {

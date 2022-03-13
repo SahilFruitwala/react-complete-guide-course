@@ -47,10 +47,10 @@ const BaseTodo = () => {
   };
 
   return (
-    <div>
+    <>
       <AddTodo setTodos={setTodos} addTodoHandler={addTodoHandler} />
       <TodoList todos={todos} onTaskDone={changeState} />
-    </div>
+    </>
   );
 };
 
