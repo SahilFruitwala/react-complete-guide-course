@@ -12,7 +12,6 @@ const AddTodo = (props) => {
   const [error, setError] = useState(INITIAL_ERROR);
 
   useEffect(() => {
-    // current property is refered to input element
     titleInput.current.focus();
   }, []);
 
@@ -49,7 +48,7 @@ const AddTodo = (props) => {
   };
 
   return (
-    <div>
+    <>
       {error.title.trim().length > 0 && (
         <ErrorModal
           title={error.title}
@@ -70,7 +69,7 @@ const AddTodo = (props) => {
         />
         <button onClick={todoHandler}>Add</button>
       </div>
-    </div>
+    </>
   );
 };
 
